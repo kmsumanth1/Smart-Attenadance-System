@@ -7,4 +7,7 @@ import java.time.LocalDate;
 
 public interface AttendanceSessionRepository extends JpaRepository<AttendanceSession, Long> {
     Page<AttendanceSession> findByTopicContainingIgnoreCaseOrSessionDate(String topic, LocalDate date, Pageable pageable);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AttendanceSessionRepository extends JpaRepository<AttendanceSession, Long> {
 }

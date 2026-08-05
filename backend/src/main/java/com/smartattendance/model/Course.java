@@ -1,17 +1,23 @@
 package com.smartattendance.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-@Entity @Table(indexes = @Index(name = "idx_course_code", columnList = "code"))
+@Entity
 public class Course {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @Column(nullable = false, unique = true, length = 30) private String code;
-    @Column(nullable = false, length = 120) private String title;
-    @Column(nullable = false, length = 80) private String department;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY) @JoinColumn(name = "faculty_id") private Faculty faculty;
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true) @Builder.Default private List<Subject> subjects = new ArrayList<>();
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false, unique = true)
+    private String code;
+    @Column(nullable = false)
+    private String title;
+    private String facultyName;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getFacultyName() { return facultyName; }
+    public void setFacultyName(String facultyName) { this.facultyName = facultyName; }
 }

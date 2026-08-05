@@ -1,29 +1,26 @@
 # Smart Attendance System
 
-A production-oriented full-stack attendance management application built with Java, Spring Boot, React, Tailwind CSS, and MySQL.
+A full-stack smart attendance management application built with Java, Spring Boot, React, and MySQL.
 
 ## Features
 
-- Role-aware user login for admins, faculty, and students.
-- Layered Spring Boot backend using Controller → Service → Repository.
-- CRUD APIs for users, students, faculty, courses, subjects, attendance sessions, attendance records, and student reports.
-- DTO-based request/response models with Bean Validation and global exception handling.
-- Spring Data JPA entity relationships for users, faculty, students, courses, subjects, attendance sessions, and records.
-- Pagination and search support on list endpoints through Spring `Pageable` and `q` query parameters.
-- React Router pages for Login, Dashboard, Students, Faculty, Courses, Attendance, and Reports.
-- Axios API client and Tailwind CSS responsive UI components.
+- Secure role-aware login for students and faculty.
+- RESTful Spring Boot APIs for students, faculty, courses, attendance sessions, and records.
+- Faculty dashboard to create attendance sessions and mark student attendance.
+- Student dashboard to review personal attendance percentages and history.
+- Responsive React interface for desktop and mobile screens.
 
 ## Project Structure
 
 ```text
-backend/   Spring Boot REST API with JPA entities, DTOs, services, repositories, and controllers
-frontend/  React + Vite app with Tailwind CSS, Axios, and React Router
+backend/   Spring Boot REST API with JPA entities and repositories
+frontend/  React dashboard powered by Vite
 ```
 
 ## Backend Setup
 
 1. Create a MySQL database named `smart_attendance`.
-2. Update `backend/src/main/resources/application.properties` or set `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD`.
+2. Update `backend/src/main/resources/application.properties` with your database credentials.
 3. Run the API:
 
 ```bash
@@ -41,18 +38,4 @@ npm install
 npm run dev
 ```
 
-The React application starts on `http://localhost:5173`. Set `VITE_API_URL` to point to a different backend URL.
-
-## API Overview
-
-- `POST /api/auth/login`
-- `/api/users`
-- `/api/students`
-- `/api/faculty`
-- `/api/courses`
-- `/api/subjects`
-- `/api/attendance/sessions`
-- `/api/attendance/records`
-- `/api/attendance/reports/students/{studentId}`
-
-List endpoints accept `page`, `size`, `sort`, and optional `q` search parameters where applicable.
+The React application starts on `http://localhost:5173`.

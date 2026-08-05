@@ -13,4 +13,8 @@ public interface AttendanceRecordRepository extends JpaRepository<AttendanceReco
     long countByStudentIdAndStatusIn(Long studentId, java.util.Collection<AttendanceStatus> statuses);
     @Query("select r from AttendanceRecord r where (:studentId is null or r.student.id = :studentId) and (:sessionId is null or r.session.id = :sessionId)")
     Page<AttendanceRecord> filter(@Param("studentId") Long studentId, @Param("sessionId") Long sessionId, Pageable pageable);
+import com.smartattendance.model.AttendanceRecord;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AttendanceRecordRepository extends JpaRepository<AttendanceRecord, Long> {
 }

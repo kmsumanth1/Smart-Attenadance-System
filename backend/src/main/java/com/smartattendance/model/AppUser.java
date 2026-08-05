@@ -1,20 +1,29 @@
 package com.smartattendance.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.time.Instant;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-@Entity @Table(name = "users", indexes = @Index(name = "idx_user_email", columnList = "email"))
+@Entity
+@Table(name = "users")
 public class AppUser {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @Column(nullable = false, unique = true, length = 150) private String email;
-    @Column(nullable = false) private String password;
-    @Column(nullable = false, length = 120) private String fullName;
-    @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20) private Role role;
-    @Column(nullable = false) @Builder.Default private boolean
-    @Column(nullable = false, updatable = false) private Instant createdAt;
-    private Instant updatedAt;
-    @PrePersist void prePersist(){ createdAt = Instant.now(); updatedAt = createdAt; }
-    @PreUpdate void preUpdate(){ updatedAt = Instant.now(); }
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false, unique = true)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private String fullName;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }
