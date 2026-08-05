@@ -1,0 +1,4 @@
+import { NavLink, Outlet } from 'react-router-dom';
+import { BarChart3, BookOpen, CalendarCheck, GraduationCap, LayoutDashboard, Users } from 'lucide-react';
+const links = [['/', 'Dashboard', LayoutDashboard], ['/students', 'Students', GraduationCap], ['/faculty', 'Faculty', Users], ['/courses', 'Courses', BookOpen], ['/attendance', 'Attendance', CalendarCheck], ['/reports', 'Reports', BarChart3]];
+export default function AppLayout(){return <div className="min-h-screen md:flex"><aside className="bg-slate-950 p-5 text-white md:w-72"><h2 className="mb-8 text-2xl font-black">Smart Attendance</h2><nav className="grid gap-2">{links.map(([to,label,Icon])=><NavLink key={to} to={to} className={({isActive})=>`flex items-center gap-3 rounded-2xl px-4 py-3 ${isActive?'bg-brand':'hover:bg-slate-800'}`}><Icon size={18}/>{label}</NavLink>)}</nav></aside><main className="flex-1 p-6 md:p-10"><Outlet/></main></div>}
