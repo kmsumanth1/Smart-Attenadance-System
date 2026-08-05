@@ -1,24 +1,17 @@
 package com.smartattendance.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+import java.time.Instant;
 
-@Entity
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Entity @Table(uniqueConstraints = @UniqueConstraint(name = "uk_session_student", columnNames = {"session_id", "student_id"}))
 public class AttendanceRecord {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(optional = false)
-    private AttendanceSession session;
-    @ManyToOne(optional = false)
-    private Student student;
-    @Enumerated(EnumType.STRING)
-    private AttendanceStatus status;
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public AttendanceSession getSession() { return session; }
-    public void setSession(AttendanceSession session) { this.session = session; }
-    public Student getStudent() { return student; }
-    public void setStudent(Student student) { this.student = student; }
-    public AttendanceStatus getStatus() { return status; }
-    public void setStatus(AttendanceStatus status) { this.status = status; }
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY) @JoinColumn(name = "session_id") private AttendanceSession session;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY) @JoinColumn(name = "student_id") private Student student;
+    @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20) private AttendanceStatus status;
+    @Column(nullable = false) private Instant markedAt;
+    @Column(length = 255) private String remarks;
+    @PrePersist void prePersist(){ markedAt = Instant.now(); }
 }
