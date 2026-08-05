@@ -54,6 +54,8 @@ The React application starts on `http://localhost:5173`. Set `VITE_API_URL` to p
 - `/api/subjects`
 - `/api/attendance/sessions`
 - `/api/attendance/records`
+- `/api/attendance/summary/students/{studentId}`
+- `/api/attendance/reports/export`
 - `/api/attendance/reports/students/{studentId}`
 
 List endpoints accept `page`, `size`, `sort`, and optional `q` search parameters where applicable.
@@ -61,3 +63,7 @@ List endpoints accept `page`, `size`, `sort`, and optional `q` search parameters
 ## Authentication
 
 The backend issues signed JWT bearer tokens from `/api/auth/register` and `/api/auth/login`. The frontend stores the token in `localStorage`, sends it through the Axios `Authorization: Bearer <token>` interceptor, and automatically logs out when the token expires or protected requests return authorization errors.
+
+## Attendance Management
+
+Faculty users can create attendance sessions for a selected course subject, mark students as present, absent, late, or excused, and edit/delete attendance records. Student users can view filtered attendance and percentages by course or subject. Admin users can view all attendance records and export CSV reports.

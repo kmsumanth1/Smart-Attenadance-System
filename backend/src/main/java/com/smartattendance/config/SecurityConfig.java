@@ -39,8 +39,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/faculty/**", "/api/courses/**", "/api/subjects/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/faculty/**", "/api/courses/**", "/api/subjects/**").hasRole("ADMIN")
-                        .requestMatchers("/api/attendance/**").hasAnyRole("ADMIN", "FACULTY")
-                        .requestMatchers(HttpMethod.GET, "/api/students/**", "/api/faculty/**", "/api/courses/**", "/api/subjects/**").hasAnyRole("ADMIN", "FACULTY", "STUDENT")
+                        .requestMatchers(HttpMethod.GET, "/api/attendance/reports/export").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/attendance/**").hasAnyRole("ADMIN", "FACULTY")
+                        .requestMatchers(HttpMethod.PUT, "/api/attendance/**").hasAnyRole("ADMIN", "FACULTY")
+                        .requestMatchers(HttpMethod.DELETE, "/api/attendance/**").hasAnyRole("ADMIN", "FACULTY")
+                        .requestMatchers(HttpMethod.GET, "/api/attendance/**", "/api/students/**", "/api/faculty/**", "/api/courses/**", "/api/subjects/**").hasAnyRole("ADMIN", "FACULTY", "STUDENT")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

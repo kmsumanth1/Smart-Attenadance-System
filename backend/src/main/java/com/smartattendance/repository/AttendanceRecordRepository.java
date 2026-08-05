@@ -11,6 +11,40 @@ public interface AttendanceRecordRepository extends JpaRepository<AttendanceReco
     Page<AttendanceRecord> findByStudentNameContainingIgnoreCaseOrSessionTopicContainingIgnoreCase(String student, String topic, Pageable pageable);
     long countByStudentId(Long studentId);
     long countByStudentIdAndStatusIn(Long studentId, java.util.Collection<AttendanceStatus> statuses);
-    @Query("select r from AttendanceRecord r where (:studentId is null or r.student.id = :studentId) and (:sessionId is null or r.session.id = :sessionId)")
-    Page<AttendanceRecord> filter(@Param("studentId") Long studentId, @Param("sessionId") Long sessionId, Pageable pageable);
+
+    @Query("""
+            select r from AttendanceRecord r
+            where (:studentId is null or r.student.id = :studentId)
+              and (:sessionId is null or r.session.id = :sessionId)
+              and (:courseId is null or r.session.subject.course.id = :courseId)
+              and (:subjectId is null or r.session.subject.id = :subjectId)
+            """)
+    Page<AttendanceRecord> filter(@Param("studentId") Long studentId, @Param("sessionId") Long sessionId,
+                                  @Param("courseId") Long courseId, @Param("subjectId") Long subjectId, Pageable pageable);
+
+    @Query("""
+            select r from AttendanceRecord r
+            where (:studentId is null or r.student.id = :studentId)
+              and (:courseId is null or r.session.subject.course.id = :courseId)
+              and (:subjectId is null or r.session.subject.id = :subjectId)
+            order by r.session.sessionDate desc
+            """)
+    java.util.List<AttendanceRecord> exportRows(@Param("studentId") Long studentId, @Param("courseId") Long courseId, @Param("subjectId") Long subjectId);
+
+    @Query("""
+            select count(r) from AttendanceRecord r
+            where r.student.id = :studentId
+              and (:courseId is null or r.session.subject.course.id = :courseId)
+              and (:subjectId is null or r.session.subject.id = :subjectId)
+            """)
+    long countFiltered(@Param("studentId") Long studentId, @Param("courseId") Long courseId, @Param("subjectId") Long subjectId);
+
+    @Query("""
+            select count(r) from AttendanceRecord r
+            where r.student.id = :studentId and r.status in :statuses
+              and (:courseId is null or r.session.subject.course.id = :courseId)
+              and (:subjectId is null or r.session.subject.id = :subjectId)
+            """)
+    long countAttendedFiltered(@Param("studentId") Long studentId, @Param("courseId") Long courseId, @Param("subjectId") Long subjectId,
+                               @Param("statuses") java.util.Collection<AttendanceStatus> statuses);
 }
