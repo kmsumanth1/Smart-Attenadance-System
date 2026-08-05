@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,12 @@ public class AuthController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         AppUser user = users.findByEmail(request.email()).orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
         return tokenResponse(user);
+    }
+
+    @GetMapping("/me")
+    public UserResponse currentUser(Authentication authentication) {
+        AppUser user = users.findByEmail(authentication.getName()).orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+        return new UserResponse(user.getId(), user.getEmail(), user.getFullName(), user.getRole(), user.isActive());
     }
 
     private AuthResponse tokenResponse(AppUser user) {

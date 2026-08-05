@@ -9,7 +9,7 @@ export function logout() {
   if (window.location.pathname !== '/login') window.location.assign('/login');
 }
 
-function isExpired(token) {
+export function isTokenExpired(token) {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.exp && payload.exp * 1000 <= Date.now();
@@ -21,7 +21,7 @@ function isExpired(token) {
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   if (token) {
-    if (isExpired(token)) {
+    if (isTokenExpired(token)) {
       logout();
       throw new axios.Cancel('JWT expired');
     }
